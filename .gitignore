@@ -1,0 +1,122 @@
+# Secrets
+.env
+.env.*
+!.env.example
+.env.local
+*.credentials.json
+polymarket_credentials.json
+credentials.json
+secrets.json
+*.pem
+*.p12
+*.pfx
+google-service-account.json
+*-service-account.json
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+venv/
+.venv/
+.pytest_cache/
+
+# Node
+node_modules/
+.next/
+out/
+*.tsbuildinfo
+
+# Databases
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs
+logs/
+*.log
+
+# OS
+.DS_Store
+desktop.ini
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Build
+dist/
+build/
+
+# Backtest data
+data/
+output/
+
+# Supabase CLI local state
+supabase/.temp/
+
+# DataMetricPulls — parquet archives (local cache, not for git)
+_DataMetricPulls/historical/supabase_archive/
+
+# MISC (unrelated files)
+MISC/
+
+# Playwright cache
+.playwright-mcp/
+
+# Canonical data layer (regenerable via scripts/canonical/)
+_DataMetricPulls/canonical/
+_DataMetricPulls/trump_posts_raw.parquet
+_DataMetricPulls/elon_posts_raw.parquet
+
+# Live tweet-market recorder output (raw L2 book/trade capture — large, local only)
+_DataMetricPulls/recordings/
+_DataMetricPulls/recordings_pulled/
+research/backtests/pacing_backtest/*.parquet
+
+# Local-only data stores (large, regenerable or archived elsewhere)
+_DataMetricPulls/l2_history/
+_DataMetricPulls/pmxt_pulled/
+_DataMetricPulls/legacy_sheets/
+research/experiments/foretest/*.parquet
+research/backtests/pacing_backtest/*.csv
+research/analysis/elon_schedule_analysis/*.parquet
+research/analysis/elon_schedule_analysis/*.csv
+
+# Local tool state
+.codex/
+vchk.json
+
+# Manual trading tools: moved to the polymarket-manual-tools repo (split 2026-07-03)
+research_toolkit/
+scripts/recorder/
+
+# Supabase data export (delivered to user, not for git)
+supabase_export_*/
+supabase_export_*.zip
+NEW_BOT_CREDENTIALS.md
+
+# analysis log backups (data, local only)
+*.csv.bak
+research/backtests/pacing_backtest/audit_out/
+*.env.local.bak*
+
+# Backtest OUTPUT dirs (regenerable from the tracked scripts; no *_out/ dir has ever been tracked)
+research/backtests/pacing_backtest/audit_out*/
+research/backtests/pacing_backtest/pattern_discovery_out*/
+research/backtests/pacing_backtest/regime_out*/
+research/backtests/pacing_backtest/rules_out/
+research/backtests/pacing_backtest/combo_out/
+research/backtests/pacing_backtest/kelly_out/
+
+# Recorder / API caches (same class as _DataMetricPulls/recordings/)
+_DataMetricPulls/pmxt_mlb_cache/
+_DataMetricPulls/weather_recordings/
+
+# Run logs + scratch API dumps
+research/backtests/pacing_backtest/crypto_sweep/*.out
+research/backtests/pacing_backtest/crypto_sweep/*.txt
+research/backtests/pacing_backtest/scratch_test.txt
+book.json
+cryptoevents.json
