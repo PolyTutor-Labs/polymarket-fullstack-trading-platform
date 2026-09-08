@@ -1,4 +1,6 @@
 """Set font to Calibri for row 3 onward on every tab."""
+
+import os
 from pathlib import Path
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
@@ -12,7 +14,7 @@ def main():
     creds = service_account.Credentials.from_service_account_file(
         str(SA),
         scopes=["https://www.googleapis.com/auth/spreadsheets"],
-        subject="darwin@xagency.com",
+        subject=os.environ.get("GOOGLE_ACCOUNT_EMAIL"),
     )
     sheets = build("sheets", "v4", credentials=creds, cache_discovery=False)
     meta = sheets.spreadsheets().get(spreadsheetId=SS).execute()

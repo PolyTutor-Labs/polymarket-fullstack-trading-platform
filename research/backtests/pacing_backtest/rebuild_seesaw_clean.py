@@ -12,7 +12,7 @@ from pathlib import Path
 ROOT=str(Path(__file__).resolve().parents[3]); ET=ZoneInfo('America/New_York')
 D=f"{ROOT}/research/backtests/pacing_backtest/audit_out3"
 creds=service_account.Credentials.from_service_account_file(os.path.expanduser('~/.claude/google-service-account.json'),
-    scopes=['https://www.googleapis.com/auth/spreadsheets'],subject='darwin@xagency.com')
+    scopes=['https://www.googleapis.com/auth/spreadsheets'],subject=os.environ.get("GOOGLE_ACCOUNT_EMAIL"))
 sh=build('sheets','v4',credentials=creds); SEE='1aApOzCaK7nbg2PRrNW_N1apVv1GWxjd6BHJZD9L7Feg'
 tr=pd.read_csv(f"{D}/one_auction_trades.csv"); tw=pd.read_csv(f"{D}/one_auction_tweets.csv")
 bf=pd.read_parquet(f"{ROOT}/research/backtests/pacing_backtest/elon_backfill_2025-09_to_now.parquet"); bf=bf[bf.counts_main_feed].sort_values('ms')

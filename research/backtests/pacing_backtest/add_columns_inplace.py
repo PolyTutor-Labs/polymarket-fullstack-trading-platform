@@ -7,7 +7,7 @@ import os
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 creds=service_account.Credentials.from_service_account_file(os.path.expanduser('~/.claude/google-service-account.json'),
-    scopes=['https://www.googleapis.com/auth/spreadsheets','https://www.googleapis.com/auth/drive'],subject='darwin@xagency.com')
+    scopes=['https://www.googleapis.com/auth/spreadsheets','https://www.googleapis.com/auth/drive'],subject=os.environ.get("GOOGLE_ACCOUNT_EMAIL"))
 sh=build('sheets','v4',credentials=creds)
 SEE='1aApOzCaK7nbg2PRrNW_N1apVv1GWxjd6BHJZD9L7Feg'; SPD='1B7dBGHy6ozJAs11yIDk5yMZKDljKeWhrwDqUtp2Nn2k'
 DARK={'red':0.13,'green':0.18,'blue':0.22}; GRAY={'red':0.92,'green':0.92,'blue':0.92}

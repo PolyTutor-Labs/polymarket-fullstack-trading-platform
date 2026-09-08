@@ -27,8 +27,10 @@ WHERE signal_type IS NULL;
 
 
 def main():
-    url = os.environ.get("SUPABASE_URL") or "https://xdonwowgqvmtrduikaon.supabase.co"
+    url = os.environ.get("SUPABASE_URL")
     key = os.environ.get("SUPABASE_SERVICE_KEY")
+    if not url:
+        raise RuntimeError("SUPABASE_URL not set")
     if not key:
         # fallback to .env in repo root
         from pathlib import Path

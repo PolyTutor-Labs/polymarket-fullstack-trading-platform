@@ -81,7 +81,7 @@ flowchart TD
 | Production path | Research / historical |
 |---|---|
 | `api/`, `web/`, `tests/` | `research/`, many `scripts/` |
-| `Engine` cycle | `backtest/engine.py` — orphaned, not imported by `api/` |
+| `Engine` cycle | `backtest/engine.py` — standalone/historical, not imported by `api/` |
 | Canonical loaders in `api/modules/shared/canonical_data.py` | One-off pacing/sweep scripts |
 
 Research code may contain experiment-specific assumptions and should be reviewed independently before reuse.
@@ -90,5 +90,5 @@ Research code may contain experiment-specific assumptions and should be reviewed
 
 - Local: uvicorn `:8010`, Next `:3010` (`scripts/windows/start.bat`).
 - Railway: `railway.toml` runs `uvicorn api.main:app` on `$PORT`, health `/api/healthz`.
-- `docker-compose.yml` maps **8000/3000** and is labeled “use when ready” — not the primary Windows path.
+- `docker-compose.yml` publishes host **8010/3010** (API container still listens on 8000). Labeled “use when ready” — not the primary Windows path.
 - `infra/` has VPS, watchdog, and Cloudflare proxy helpers.

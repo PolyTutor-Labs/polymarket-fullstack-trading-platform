@@ -2,7 +2,7 @@ from pathlib import Path
 # -*- coding: utf-8 -*-
 """Build a Google Sheet that shows S3 (Anchor + Harvest) from the REAL backtest: the logic,
 every S3 order (core vs sleeve), per-auction P&L, and one auction traced step by step.
-All numbers computed from audit_out2/trades.csv. DWD service account (subject=darwin@xagency.com)."""
+All numbers computed from audit_out2/trades.csv. DWD service account (subject=GOOGLE_ACCOUNT_EMAIL)."""
 import os, json
 from datetime import datetime, timezone
 from zoneinfo import ZoneInfo
@@ -41,7 +41,7 @@ td=s3[s3.slug==traced_slug].sort_values('hour_ts')
 creds=service_account.Credentials.from_service_account_file(
     os.path.expanduser('~/.claude/google-service-account.json'),
     scopes=['https://www.googleapis.com/auth/spreadsheets','https://www.googleapis.com/auth/drive'],
-    subject='darwin@xagency.com')
+    subject=os.environ.get("GOOGLE_ACCOUNT_EMAIL"))
 sheets=build('sheets','v4',credentials=creds); drive=build('drive','v3',credentials=creds)
 
 def m(x): return round(float(x),2)

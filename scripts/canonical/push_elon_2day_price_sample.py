@@ -2,6 +2,8 @@
 
 Picks the LARGEST 2-day Elon auction (most trades) for richer sample.
 """
+
+import os
 from pathlib import Path
 from zoneinfo import ZoneInfo
 import pandas as pd
@@ -91,7 +93,7 @@ def main():
 
     # Push
     creds = service_account.Credentials.from_service_account_file(
-        str(SA), scopes=["https://www.googleapis.com/auth/spreadsheets"], subject="darwin@xagency.com",
+        str(SA), scopes=["https://www.googleapis.com/auth/spreadsheets"], subject=os.environ.get("GOOGLE_ACCOUNT_EMAIL"),
     )
     sheets = build("sheets","v4",credentials=creds,cache_discovery=False)
     meta = sheets.spreadsheets().get(spreadsheetId=SS).execute()

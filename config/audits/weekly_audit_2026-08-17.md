@@ -1,6 +1,6 @@
 # Weekly Audit — 2026-08-17
 
-Scope: live production branch `feat/newbot-step1-skeleton` (the "Step 1 skeleton" rewrite — NOT `master`, which is the retired old bot). Live data source: Supabase project `xdonwowgqvmtrduikaon`.
+Scope: live production branch `feat/newbot-step1-skeleton` (the "Step 1 skeleton" rewrite — NOT `master`, which is the retired old bot). Live data source: Supabase project `<supabase-project-ref>`.
 
 **Top line: the LIVE portion of this audit could not run.** Supabase was unreachable for the entire session (see CRITICAL-1). All CODE findings below come from direct manual review — the three automated QA sub-agents (risk-auditor, qa-architecture-quality, qa-code-quality) each failed twice in a row on Anthropic API overload (`529`) and never completed; findings they would normally surface may not be captured here. Recommend re-running this audit (or just the LIVE half) once Supabase connectivity and API capacity are confirmed healthy.
 
@@ -9,7 +9,7 @@ Scope: live production branch `feat/newbot-step1-skeleton` (the "Step 1 skeleton
 ## CRITICAL
 
 ### C1 — Supabase project unreachable for the entire audit; LIVE section could not be produced
-Every query against project `xdonwowgqvmtrduikaon` timed out or errored, across ~20 attempts spanning roughly 30 minutes:
+Every query against project `<supabase-project-ref>` timed out or errored, across ~20 attempts spanning roughly 30 minutes:
 - `execute_sql` (`select 1;`, `select now();`, a real `signals` count query) — `Connection terminated due to connection timeout`, every attempt.
 - `list_tables` — same timeout.
 - `get_advisors` — `Failed to run project user check: Connection terminated due to connection timeout`.
@@ -21,7 +21,7 @@ This matches the failure signature already documented in this repo's own `CLAUDE
 
 **Could not verify:** signal approval health / rejection-reason breakdown, per-module realized P&L (7-day and all-time), module health / inactive-reason correctness, engine liveness (newest `Cycle:` log timestamp), or the foreign-writer check (`%enabled_wallets%` in `logs`).
 
-**Recommendation:** check the Supabase project directly (dashboard, or `db.xdonwowgqvmtrduikaon.supabase.co` reachability) outside of this MCP path — if the live bot is also hitting this same timeout on its own Supabase calls, every risk-gate check that depends on a DB read (which is all of them — see risk_manager.py review below) is failing closed right now, meaning **the bot may currently be rejecting 100% of entry signals**. That would look identical to the "approval health" failure mode this audit was asked to check for, just caused by infra instead of a gating bug. Worth an immediate manual check independent of this report.
+**Recommendation:** check the Supabase project directly (dashboard, or `<your-supabase-db-host>` reachability) outside of this MCP path — if the live bot is also hitting this same timeout on its own Supabase calls, every risk-gate check that depends on a DB read (which is all of them — see risk_manager.py review below) is failing closed right now, meaning **the bot may currently be rejecting 100% of entry signals**. That would look identical to the "approval health" failure mode this audit was asked to check for, just caused by infra instead of a gating bug. Worth an immediate manual check independent of this report.
 
 ---
 

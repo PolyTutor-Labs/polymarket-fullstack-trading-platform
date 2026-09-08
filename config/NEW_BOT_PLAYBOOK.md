@@ -406,7 +406,7 @@ Context: all evaluated FOR OUR BOT = Elon tweets. Posts 1 (@0xSurferX) + 3 (@0x_
 ### Tooling / platform gotchas
 - "Working" = a completed round-trip trade (signal emits to executor to fill to position to SELL to realized PnL on the LIVE instance), NOT a green code-only pipeline. AST/import/schema QA repeatedly passed while the bot silently didn't trade. Run the `/qa-real-trade` 6-step round-trip gate, not just `verify-bot` (which only exercises the module surface and never the risk_manager/executor pipeline).
 - py_clob_client requires typed dataclasses, NOT dicts: `OrderArgs(token_id, price, size, side)` and `ApiCreds(api_key, api_secret, api_passphrase)`. A dict crashes later with AttributeError (`'dict' object has no attribute 'token_id'`) only after signal emission is unblocked.
-- For Railway state, trust the dashboard UI (drive Chrome) over the Railway MCP, which returned stale/cross-project data (mixed JaxBot and Polymarket-Bot, phantom logs of deleted services).
+- For Railway state, trust the dashboard UI (drive Chrome) over the Railway MCP, which returned stale/cross-project data (mixed <unrelated-service> and Polymarket-Bot, phantom logs of deleted services).
 - On Windows: set `PYTHONUTF8`/UTF-8 and avoid unicode in console output (arrows crash the encoder, use ASCII); bash heredocs silently fail to write and `/tmp` is not writable (use a real project path); pass env vars as absolute paths, cmd-style `set` does not pass through to Python.
 - On Windows use Python `py_clob_client` directly; no Windows binary exists for the official Rust polymarket-cli, and never shell out to a CLI from the bot anyway (latency + Rust binary on Railway).
 - X API moved to pay-per-use on Feb 6, 2026 ($0.005/post read, no subscription); full-archive `/2/tweets/search/all` is self-serve back to March 2006. A full ~2-year Elon backfill is ~$250-600 one-time, ~$15/mo ongoing. Always verify API pricing/limits against official docs, never quote tiers from memory.
@@ -417,9 +417,9 @@ Context: all evaluated FOR OUR BOT = Elon tweets. Posts 1 (@0xSurferX) + 3 (@0x_
 ### Wallets, Credentials & Supabase
 - Use distinct env var prefixes per wallet to avoid silent credential collision: `POLYMARKET_*` for the bot wallet, `POLY_MANUAL_*` for the manual wallet. Python loads env in file order, so duplicate prefixes mean the second silently overwrites the first.
 - Credential store: `~/.credentials/shared.env` holds `POLYMARKET_*` and `SUPABASE_*` blocks plus `LUNARCRUSH_API_KEY` and `WEBHOOK_SECRET`.
-- BOT wallet `0xD0f99f553bC376E8b86246295d679dC86334d400` (`POLYMARKET_PRIVATE_KEY` = `0xffd2f85e...`). MANUAL wallet `0x2eEF3A...8eAca` (`POLY_MANUAL_*` set: `POLY_MANUAL_WALLET_ADDRESS`, `POLY_MANUAL_PRIVATE_KEY`, `POLY_MANUAL_API_KEY`, `POLY_MANUAL_SECRET`, `POLY_MANUAL_PASSPHRASE`).
+- Use separate env prefixes per wallet: `POLYMARKET_*` for the bot wallet and `POLY_MANUAL_*` for a manual wallet (`POLY_MANUAL_WALLET_ADDRESS`, `POLY_MANUAL_PRIVATE_KEY`, `POLY_MANUAL_API_KEY`, `POLY_MANUAL_SECRET`, `POLY_MANUAL_PASSPHRASE`). Never commit wallet addresses or key material.
 - CLOB trading needs all three of `key` + `secret` + `passphrase`, not just the api_key.
-- Supabase project (kept): `https://xdonwowgqvmtrduikaon.supabase.co` (ref `xdonwowgqvmtrduikaon`). Do NOT touch `woqxafmrzvhrhnkgmhdv` (X Agency Slack Bot).
+- Supabase project (kept): `<your-supabase-url>` (ref `<supabase-project-ref>`). Do NOT touch `<unrelated-supabase-project>` (an unrelated project).
 - Manual-trade autonomy cap: vAI may execute manual trades up to $25 notional (size x price) autonomously; >$25, including aggregated micro-batches on the same market, requires explicit confirmation. All orders limit-only.
 
 ### Polymarket Endpoints (6 data/trading surfaces)
@@ -491,9 +491,9 @@ Context: all evaluated FOR OUR BOT = Elon tweets. Posts 1 (@0xSurferX) + 3 (@0x_
 ## Infra & Deployment
 
 ### Provider topology (clean rebuild)
-- Keep Supabase project ref `xdonwowgqvmtrduikaon` (URL + anon/service keys + schema + 23 migrations all preserved); old bot was torn down 2026-06-16 with all tables truncated to 0 rows. To pause billing during a rebuild gap, DOWNGRADE to free tier, never delete (delete creates a new ref, new URL, new keys, kills saved credentials and loses schema/migrations).
+- Keep Supabase project ref `<supabase-project-ref>` (URL + anon/service keys + schema + 23 migrations all preserved); old bot was torn down 2026-06-16 with all tables truncated to 0 rows. To pause billing during a rebuild gap, DOWNGRADE to free tier, never delete (delete creates a new ref, new URL, new keys, kills saved credentials and loses schema/migrations).
 - Keep GitHub repo `udt1234/polymarket-trading-bot-3.21.26`. For a ground-up rewrite use a new branch or sibling repo, never delete (it holds strategy work, canonical data scripts, lessons, architecture).
-- Old bot's 4 Railway services (Bot-API, Bot-Dashboard, cron-spike-alert, cron-anchor-alert) were deleted via Railway CLI on 2026-06-16; project shell kept (id `e9d87bab-d38a-42e3-b57a-f197c4b081cb`). The repo-to-service GitHub link lived on the deleted services, so a fresh service must reconnect the repo and re-paste env vars.
+- Old bot's 4 Railway services (Bot-API, Bot-Dashboard, cron-spike-alert, cron-anchor-alert) were deleted via Railway CLI on 2026-06-16; project shell kept (id redacted). The repo-to-service GitHub link lived on the deleted services, so a fresh service must reconnect the repo and re-paste env vars.
 - Provision Supabase at micro tier (~$10/mo, ~3x IO budget + 1GB RAM) from the start, not free/nano.
 
 ### Railway deploy mechanics
@@ -538,12 +538,12 @@ Context: all evaluated FOR OUR BOT = Elon tweets. Posts 1 (@0xSurferX) + 3 (@0x_
 - SonarCloud is free for public repos (unlimited LOC/scans); wire via `sonar-project.properties` + a GitHub Action + a `SONAR_TOKEN` repo secret. Runs on every PR/push, posts findings as PR comments. One-time signup at sonarcloud.io then `gh secret set SONAR_TOKEN`.
 
 ### Google Sheets reads (viewer/data layer)
-- Read any Google Sheet as `darwin@xagency.com` via the DWD service account at `~/.claude/google-service-account.json` (subject impersonation), not Apps Script doGet endpoints. Use the full `auth/spreadsheets` scope (NOT `.readonly`, which throws `unauthorized_client`). For Vercel deploy, the JSON goes in env var `GOOGLE_SERVICE_ACCOUNT_JSON`.
+- Read any Google Sheet as `a configured Workspace account` via the DWD service account at `~/.claude/google-service-account.json` (subject impersonation), not Apps Script doGet endpoints. Use the full `auth/spreadsheets` scope (NOT `.readonly`, which throws `unauthorized_client`). For Vercel deploy, the JSON goes in env var `GOOGLE_SERVICE_ACCOUNT_JSON`.
 
 ## Deferred - not included (pull any in on request)
 
 - Old bot is the torn-down instance in repo `udt1234/polymarket-trading-bot-3.21.26`; teardown 2026-06-16 (Railway services deleted, Supabase wiped, credentials/schema/repo kept).
-- Old Railway topology: project "Polymarket-Bot" (id e9d87bab) with polymarket-trading-bot API + Next.js dashboard; JaxBot was a separate 0/4 project.
+- Old Railway topology: a dedicated bot project with API + Next.js dashboard; an unrelated service was a separate empty project.
 - Repeated engine stalls flatlined the old bot through late May/early June 2026; the daily QA task only diagnoses and reports, never restarts.
 - Extensive Next.js dashboard/UI iterations on the dead bot (flex-wrap fixed-width cards, metric-card redesign, decision log, pending-entries card, heatmap colors, hourly clock SVG, auction dropdown, confidence bands, Auction Deep Dive accordion, CollapsibleCard sweep, data explorer page, bidding-strategy panel).
 - Tech-debt sweeps: get_pacing 247->131 lines, modules/[id]/page.tsx 1051->606, removed unused imports, extracted shared TabToggle/Card; 2026-05-01 scan found dead order_manager.py/parquet_fetcher.py, _evaluate_async at 353 lines, duplicated _log()/module_config.py, stale .claude/worktrees/ not gitignored.
@@ -556,7 +556,7 @@ Context: all evaluated FOR OUR BOT = Elon tweets. Posts 1 (@0xSurferX) + 3 (@0x_
 - Daily hold/sell monitor + opportunity scanner deployed for the manual wallet (research_toolkit/scripts/daily_holdsell.py) on Windows Task Scheduler 8AM ET, posting to Slack + a Sheet _Notifications tab.
 - Losing resolved positions sit as "active" UI clutter; redeeming $0 losers only burns gas, so hide or ignore them.
 - Google Sheets reporting artifacts (not bot code): flip-strategy workbook 1c00JV2O, Tweet Markets v2 styling 1B49UEV0, Dash_V2/per-handle/_Brackets/_Live_Pacing/_Strategies/_PacingSpecs build, canonical QA sheet 1bXBnXz4 (inventory + QA_Log + backtest tabs), one-off Trump Friday 11AM-noon ET rate ~0.55 posts/hr query.
-- PolyPulse_Web / MyPolyTracker Next.js dashboard UI work (Warm Graphite theme, cards, sub-navs, Elon Lab tab, backtesting shell) deployed to Vercel/tracker.xagency.com; could move to Streamlit/Next.js reading canonical parquet directly.
+- PolyPulse_Web / MyPolyTracker Next.js dashboard UI work (Warm Graphite theme, cards, sub-navs, Elon Lab tab, backtesting shell) deployed to Vercel/<tracker-host>; could move to Streamlit/Next.js reading canonical parquet directly.
 - IFTTT X-tweet-to-Sheets logging setup (7 handles, Pro+ unlimited applets, Telegram/push options, array-formula columns) is tweet archival tooling, not bot code.
 - Tooling/process tangents: persona/soul.md setup, auto-memory hook, global PreToolUse no-narration hook, weekly module-rules-auditor agent, claude-mem setup (Gemini provider, port 37777) and bun.exe popup flood from its hooks, orphan Windows scheduled tasks, SocratiCode MCP judged not worth standing up, Claude Code mobile only shows cloud/Remote Control sessions.
 - Non-bot session tangents: ZeroEyes B2B lead-enrichment (Apollo/Clearbit/NAICS), Chase/Amex rebate auto-marking scripts, a Sheets INDEX/MATCH pivot formula, an xtracker->Sheets hourly GitHub Actions sync.

@@ -154,7 +154,7 @@ from google.oauth2 import service_account
 from googleapiclient.discovery import build
 import os
 creds=service_account.Credentials.from_service_account_file(os.path.expanduser('~/.claude/google-service-account.json'),
-    scopes=['https://www.googleapis.com/auth/spreadsheets'], subject='darwin@xagency.com')
+    scopes=['https://www.googleapis.com/auth/spreadsheets'], subject=os.environ.get("GOOGLE_ACCOUNT_EMAIL"))
 svc=build('sheets','v4',credentials=creds); SID='1AV_vIsxLIzTivNE_EshZbh-y7QKxLa7MIy1hNJMbAf8'
 def wtab(tab,vals):
     meta=svc.spreadsheets().get(spreadsheetId=SID,fields='sheets(properties(title))').execute()

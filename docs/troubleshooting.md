@@ -16,7 +16,7 @@ python -m uvicorn api.main:app --reload --port 8010
 cd web && npm install && npm run dev
 ```
 
-Listens on **3010** (`package.json`). Port 3000 is only in `docker-compose.yml`.
+Listens on **3010** (`package.json`). Docker maps host `3010` to that same process port.
 
 ## Environment variables missing
 
@@ -36,8 +36,9 @@ Apply `supabase/migrations/` in order on a new project.
 
 ## Port already in use
 
-- API: 8010 (local scripts) vs 8000 (compose / some infra READMEs).
-- UI: 3010 vs compose 3000.
+- API: user-facing **8010** (uvicorn `--port 8010` locally; Docker `8010:8000`).
+- UI: user-facing **3010**.
+- VPS/watchdog helpers may still talk to process port **8000** on the host where uvicorn is bound internally.
 
 Change the uvicorn `--port` and `NEXT_PUBLIC_API_URL` / `CORS_ORIGINS` together.
 

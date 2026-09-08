@@ -6,7 +6,7 @@ This is the single, self-contained build spec. A developer can build the whole s
 
 ## How a new session should use this file
 1. Read this file top to bottom first.
-2. Then read `config/NEW_BOT_PLAYBOOK.md` (fuller narrative + all prior-session findings) and `config/HANDOFF.md` (current state).
+2. Then read `config/NEW_BOT_PLAYBOOK.md` (historical narrative) and `docs/` (current educational path). Private operator handoff notes are not shipped in this repository.
 3. Auto-loaded memory (`~/.claude/projects/.../memory/`) holds the hard rules: `new_bot_master_build_2026_07_01.md`, `new_bot_maker_only.md`, `lesson_clob_v2_execution_specs.md`, `lesson_maker_not_taker.md`, `lesson_presign_hotpath.md`.
 4. Companion Google Docs (same content): Full Spec `1TG4tdWR07Ob-vm4MD9dJpomoFwoIR8e5CUka3OvkLfM`, plain-English `1yEkXd7xQe3-frnntb_Oh4617kQ5lb_0JRmY41wB9oKo`.
 5. Credentials live only in `~/.credentials/shared.env` (never commit). Start build at PART J Step 1.
@@ -352,7 +352,7 @@ Read-only web terminal to watch everything in real time. NEVER places orders. Ne
   - pUSD token: `0xC011a7E12a19f7B1f670d46F03B03f3342E82DFB`
   - Conditional Tokens Framework (CTF): `0x4D97DCd97eC945f40cF65F87097ACe5EA0476045`
 - **Endpoints**: clob.polymarket.com; wss://ws-subscriptions-clob.polymarket.com/ws/market; gamma-api.polymarket.com (/events?tag_id=972, /series?slug=elon-tweets-48h); data-api.polymarket.com (/trades, /positions, /value, /activity); xtracker.polymarket.com.
-- **Constants**: Elon user id 44196397; Gamma tag 972 (Tweet Markets), 282 (Elon); Supabase ref xdonwowgqvmtrduikaon; Polygon chain id 137. Wallets: BOT `0xD0f99f553bC376E8b86246295d679dC86334d400` (POLYMARKET_* env); MANUAL `0x2eEF3A...8eAca` (POLY_MANUAL_* env).
+- **Constants**: Elon user id 44196397; Gamma tag 972 (Tweet Markets), 282 (Elon); Supabase ref <supabase-project-ref>; Polygon chain id 137. Wallets: BOT and MANUAL addresses come from env (`POLYMARKET_*` / `POLY_MANUAL_*`), never from committed constants.
 
 ## K. External-AI QA outcomes (2026-07-03)
 - ADOPTED: absolute cent-based copy-trade drift (2c not 10%); S2 salvage exit; matching-engine restart handling (HTTP 425 + 2-min post-only window); ~30s pre-sign horizon + UTC clock; TCP_NODELAY.

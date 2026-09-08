@@ -2,7 +2,7 @@
 
 Modes that actually exist in this repository.
 
-`SHADOW_MODE` appears in `.env.example` but is **not referenced** under `api/`. It is not a supported trading mode.
+There is no shadow-trading mode. `SHADOW_MODE` is not a supported setting and is not read by `api/`.
 
 ## Summary
 
@@ -45,7 +45,7 @@ Live requires **all** of:
 ## Research backtest — PARTIALLY SUPPORTED
 
 - Many scripts under `research/backtests/` and `research/analysis/`.
-- `backtest/engine.py` is a leftover projection helper. A 2026-08 audit notes it is **not imported** by `api/` / `tests/` / `scripts/` and its original `all_trackings.json` source was removed. Do not treat it as the official runner.
+- `backtest/engine.py` is a standalone/historical helper. It is **not imported** by `api/` / `tests/` / `scripts/` and its original `all_trackings.json` source was removed. See `backtest/README.md`. Do not treat it as the official runner.
 
 See [backtesting.md](backtesting.md).
 

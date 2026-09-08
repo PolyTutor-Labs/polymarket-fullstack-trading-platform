@@ -16,7 +16,7 @@ for off,name in [(-2,"-2"),(-1,"-1 (early)"),(0,"0 (current)"),(1,"+1 (long)"),(
     phys.append(offrow(off,name))
 
 creds=service_account.Credentials.from_service_account_file(os.path.expanduser('~/.claude/google-service-account.json'),
-    scopes=['https://www.googleapis.com/auth/spreadsheets','https://www.googleapis.com/auth/drive'],subject='darwin@xagency.com')
+    scopes=['https://www.googleapis.com/auth/spreadsheets','https://www.googleapis.com/auth/drive'],subject=os.environ.get("GOOGLE_ACCOUNT_EMAIL"))
 sh=build('sheets','v4',credentials=creds); dr=build('drive','v3',credentials=creds)
 
 verdict=[

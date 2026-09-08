@@ -1,14 +1,14 @@
 """§11 (your realized PnL + selective rule) + §10#2 reversion event-study + charts, from the
 June 18-20 Elon full trade tape. Tests the brief's core hypothesis: do prices transiently
 overshoot and mean-revert (fadeable net of cost)?"""
-import sys, numpy as np, pandas as pd
+import os, sys, numpy as np, pandas as pd
 from pathlib import Path
 import matplotlib; matplotlib.use('Agg'); import matplotlib.pyplot as plt
 sys.stdout.reconfigure(encoding='utf-8')
 ROOT=Path(__file__).resolve().parents[3]
 OUT=ROOT/'research'/'backtests'/'pacing_backtest'
-DL=Path(__import__('os').environ.get('POLYTUTOR_OUTPUT_DIR', str(Path(__file__).resolve().parents[3] / 'output'))); DL.mkdir(exist_ok=True)
-WALLET='0x2eEF3A18bC771827aF0649a81aA54148A8E8eAca'.lower()
+DL=Path(os.environ.get('POLYTUTOR_OUTPUT_DIR', str(Path(__file__).resolve().parents[3] / 'output'))); DL.mkdir(exist_ok=True)
+WALLET=(os.environ.get('RESEARCH_WALLET_ADDRESS') or os.environ.get('POLY_MANUAL_WALLET_ADDRESS') or '').lower()
 
 df=pd.read_parquet(OUT/'june1820_tape.parquet').sort_values('timestamp').reset_index(drop=True)
 df['yes_price']=np.where(df['outcome']=='Yes', df['price'], 1-df['price'])

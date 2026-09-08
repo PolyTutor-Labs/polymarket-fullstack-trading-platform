@@ -4,6 +4,8 @@ single_auction_seesaw (logs Kalman/Accrual/Ensemble alongside the locked Ens+Cap
 VERIFY the regenerated stream aligns row-for-row with the LIVE tab (action=G, bracket=K, our_center=I).
 Only if 100% aligned: write the REAL sub-models to AA-AD (AD ties out to 'Our Pace' col I to the decimal)
 and correct column E's pacing string to match. Surgical: touches ONLY E (in place) + AA onward."""
+
+import os
 import subprocess, sys, os, glob
 import pandas as pd
 from google.oauth2 import service_account
@@ -11,7 +13,7 @@ from googleapiclient.discovery import build
 from pathlib import Path
 sys.stdout.reconfigure(encoding='utf-8')
 ROOT=str(Path(__file__).resolve().parents[3]); HERE=os.path.dirname(os.path.abspath(__file__)); OUT=HERE+"/audit_out3"
-creds=service_account.Credentials.from_service_account_file(os.path.expanduser('~/.claude/google-service-account.json'),scopes=['https://www.googleapis.com/auth/spreadsheets'],subject='darwin@xagency.com')
+creds=service_account.Credentials.from_service_account_file(os.path.expanduser('~/.claude/google-service-account.json'),scopes=['https://www.googleapis.com/auth/spreadsheets'],subject=os.environ.get("GOOGLE_ACCOUNT_EMAIL"))
 sh=build('sheets','v4',credentials=creds).spreadsheets(); SEE='1aApOzCaK7nbg2PRrNW_N1apVv1GWxjd6BHJZD9L7Feg'; TAB='New_Backtest_Clean_7.13.2026'
 au=pd.read_csv(OUT+"/clean_sweep.csv"); SLUGS=['elon-musk-of-tweets-'+a for a in au.auction]
 seq=[]

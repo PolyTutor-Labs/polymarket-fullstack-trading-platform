@@ -11,7 +11,7 @@ buys=tr[tr.action=='BUY']; pnl=0.0
 # reconstruct round-trip pnl for display
 pnl=round(sum((tr.iloc[i+1].fill-tr.iloc[i].fill)*tr.iloc[i].shares for i in range(0,len(tr)-1,2)),2) if len(tr)>=2 else 0
 creds=service_account.Credentials.from_service_account_file(os.path.expanduser('~/.claude/google-service-account.json'),
-    scopes=['https://www.googleapis.com/auth/spreadsheets','https://www.googleapis.com/auth/drive'],subject='darwin@xagency.com')
+    scopes=['https://www.googleapis.com/auth/spreadsheets','https://www.googleapis.com/auth/drive'],subject=os.environ.get("GOOGLE_ACCOUNT_EMAIL"))
 sh=build('sheets','v4',credentials=creds); dr=build('drive','v3',credentials=creds)
 info=[
 ["ONE AUCTION, EVENT-DRIVEN - april-16-april-18 (winner 65-89, he finished at 77)"],

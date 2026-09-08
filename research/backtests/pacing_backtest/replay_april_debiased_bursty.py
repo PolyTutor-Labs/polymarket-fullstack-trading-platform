@@ -619,7 +619,7 @@ for tt in trades:
 
 creds = service_account.Credentials.from_service_account_file(
     os.path.expanduser("~/.claude/google-service-account.json"),
-    scopes=["https://www.googleapis.com/auth/spreadsheets"], subject="darwin@xagency.com")
+    scopes=["https://www.googleapis.com/auth/spreadsheets"], subject=os.environ.get("GOOGLE_ACCOUNT_EMAIL"))
 sh = build("sheets", "v4", credentials=creds).spreadsheets()
 meta = sh.get(spreadsheetId=SEE).execute()
 titles = {x["properties"]["title"]: x["properties"]["sheetId"] for x in meta["sheets"]}

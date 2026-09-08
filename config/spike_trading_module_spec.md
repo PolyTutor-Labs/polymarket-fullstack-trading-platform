@@ -389,5 +389,5 @@ Sheet: https://docs.google.com/spreadsheets/d/1c00JV2Oot8axapqkd9dF2bWRZQbCKCB5s
 **When ready**, spawn a fresh Claude session with:
 - This spec
 - The CSVs in `_DataMetricPulls/elon_2day_analysis/`
-- The HANDOFF.md note about parquet data tooling
+- Historical notes about parquet data tooling
 - "Build the spike_trading module per `config/spike_trading_module_spec.md`. Phase 1 only — shadow mode."

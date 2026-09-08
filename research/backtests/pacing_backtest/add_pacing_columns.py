@@ -7,7 +7,7 @@ import os, re, sys
 sys.stdout.reconfigure(encoding='utf-8')
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
-creds=service_account.Credentials.from_service_account_file(os.path.expanduser('~/.claude/google-service-account.json'),scopes=['https://www.googleapis.com/auth/spreadsheets'],subject='darwin@xagency.com')
+creds=service_account.Credentials.from_service_account_file(os.path.expanduser('~/.claude/google-service-account.json'),scopes=['https://www.googleapis.com/auth/spreadsheets'],subject=os.environ.get("GOOGLE_ACCOUNT_EMAIL"))
 sh=build('sheets','v4',credentials=creds).spreadsheets(); SEE='1aApOzCaK7nbg2PRrNW_N1apVv1GWxjd6BHJZD9L7Feg'; TAB='New_Backtest_Clean_7.13.2026'
 E=sh.values().get(spreadsheetId=SEE,range=f"'{TAB}'!E3:E5000").execute().get('values',[])
 def num(lab,s):

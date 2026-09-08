@@ -13,7 +13,7 @@ from googleapiclient.discovery import build
 from pathlib import Path
 ROOT=str(Path(__file__).resolve().parents[3]); CANON=f"{ROOT}/_DataMetricPulls/canonical"; ET=ZoneInfo('America/New_York')
 creds=service_account.Credentials.from_service_account_file(os.path.expanduser('~/.claude/google-service-account.json'),
-    scopes=['https://www.googleapis.com/auth/spreadsheets'],subject='darwin@xagency.com')
+    scopes=['https://www.googleapis.com/auth/spreadsheets'],subject=os.environ.get("GOOGLE_ACCOUNT_EMAIL"))
 sh=build('sheets','v4',credentials=creds); SEE='1aApOzCaK7nbg2PRrNW_N1apVv1GWxjd6BHJZD9L7Feg'
 MON=['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
 s=int(pd.Timestamp(datetime(2026,4,16,12,tzinfo=ET)).timestamp()); e=int(pd.Timestamp(datetime(2026,4,18,12,tzinfo=ET)).timestamp()); total=48.0

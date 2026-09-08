@@ -97,7 +97,7 @@ def section(base,bk,label):
 section(5,"2DAY","2-DAY")
 section(48,"7DAY","7-DAY")
 creds=service_account.Credentials.from_service_account_file(os.path.expanduser('~/.claude/google-service-account.json'),
-    scopes=['https://www.googleapis.com/auth/spreadsheets','https://www.googleapis.com/auth/drive'],subject='darwin@xagency.com')
+    scopes=['https://www.googleapis.com/auth/spreadsheets','https://www.googleapis.com/auth/drive'],subject=os.environ.get("GOOGLE_ACCOUNT_EMAIL"))
 sh=build('sheets','v4',credentials=creds)
 gid=1954316949
 sh.spreadsheets().values().clear(spreadsheetId=SID,range="'Elon Pacing'!A1:Z200").execute()

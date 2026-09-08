@@ -1,5 +1,5 @@
 """Build a fully-transparent Google Sheet from the REAL audit CSVs (audit_out/).
-Every number traces to a per-trade fill. Uses DWD service account (subject=darwin@xagency.com)."""
+Every number traces to a per-trade fill. Uses DWD service account (subject=GOOGLE_ACCOUNT_EMAIL)."""
 import os, json
 import pandas as pd
 from google.oauth2 import service_account
@@ -14,7 +14,7 @@ G=ad[ad.run=='gated'].copy().sort_values('win_start_ET'); GT=tr[tr.run=='gated']
 creds=service_account.Credentials.from_service_account_file(
     os.path.expanduser('~/.claude/google-service-account.json'),
     scopes=['https://www.googleapis.com/auth/spreadsheets','https://www.googleapis.com/auth/drive'],
-    subject='darwin@xagency.com')
+    subject=os.environ.get("GOOGLE_ACCOUNT_EMAIL"))
 sheets=build('sheets','v4',credentials=creds); drive=build('drive','v3',credentials=creds)
 
 # ---------- derived facts (all from real data) ----------

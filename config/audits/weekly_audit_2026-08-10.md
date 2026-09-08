@@ -1,7 +1,7 @@
 # Weekly Audit — 2026-08-10
 
 Code audited: `feat/newbot-step1-skeleton` @ `c762636a9fa8f0e18c4dd5d27af4579448f6250c` (live production bot; `master` is the retired old bot).
-Live data: Supabase project `xdonwowgqvmtrduikaon`, last 7 days as of 2026-08-10 ~13:58 UTC.
+Live data: Supabase project `<supabase-project-ref>`, last 7 days as of 2026-08-10 ~13:58 UTC.
 
 This audit does not modify trading logic, risk limits, or module behavior. All fixes beyond the one clearly-labeled dead-code removal below are written recommendations for human review.
 
@@ -19,7 +19,7 @@ This means a second bot process — the old, supposedly-retired codebase — is 
 **Recommendation:** Find and shut down whatever deployment (old Railway service, stale container, forgotten cron) is still running the `master`-branch code. Until it's confirmed dead, treat all Copytrader P&L/exposure numbers as unreliable. Consider giving the current module a distinct `modules.id`/name if the old process can't be killed immediately, to at least stop the data contamination.
 
 ### C2. Row Level Security disabled on 4 production tables
-Supabase advisory (live, `xdonwowgqvmtrduikaon`): `public.whale_movements` (220,593 rows), `public.ghost_trap`, `public.ghost_trap2`, `public.ghost_trap3` have RLS **disabled**, exposing them to full read/write via the anon and authenticated keys used by client libraries. `ghost_trap*` in particular are unrecognized by both branches' codebases (no code references them) — worth confirming what created them before deciding on a policy.
+Supabase advisory (live, `<supabase-project-ref>`): `public.whale_movements` (220,593 rows), `public.ghost_trap`, `public.ghost_trap2`, `public.ghost_trap3` have RLS **disabled**, exposing them to full read/write via the anon and authenticated keys used by client libraries. `ghost_trap*` in particular are unrecognized by both branches' codebases (no code references them) — worth confirming what created them before deciding on a policy.
 
 **Recommendation (do not auto-apply — enabling RLS with no policies will lock out legitimate access):**
 ```sql
@@ -54,7 +54,7 @@ The table comment states it's "Populated by `BaseModule._persist_health()` at th
 `api/services/executor.py:137-140` — `PaperExecutor.check_fills()` marks a paper SELL "filled" and writes `trades`, but only calls `position_manager.apply_sell_fill()` when `metadata.position_id` is present, with no fallback to `apply_sell_fill_by_market()`. The **live** path (`api/services/order_state.py:104-118`) got exactly this fallback after the 2026-07-22 risk audit (F3). If any future module builds a paper exit `Signal` without `position_id` in metadata, the order/trade rows will show a successful fill while the position stays `open` forever and P&L/circuit-breaker never see the loss.
 
 ### H6. Test suite does not run clean; several tests reference APIs that no longer exist
-`python -m pytest -q` from repo root **fails to even collect** (13 errors) — it also picks up unrelated data-analysis scratch scripts under `research/backtests/pacing_backtest/*_test.py` and `elon_schedule_analysis/test_tz_hypothesis.py` that expect local parquet files at a Windows path (`C:\Users\darwi\...`) that don't exist in this environment, plus `scripts/canonical/07_consistency_test.py` (missing `google` package). Scoped to `tests/` only: **9 failed, 64 passed, 3 collection errors**.
+`python -m pytest -q` from repo root **fails to even collect** (13 errors) — it also picks up unrelated data-analysis scratch scripts under `research/backtests/pacing_backtest/*_test.py` and `elon_schedule_analysis/test_tz_hypothesis.py` that expect local parquet files at a Windows path (`<local-windows-path>`) that don't exist in this environment, plus `scripts/canonical/07_consistency_test.py` (missing `google` package). Scoped to `tests/` only: **9 failed, 64 passed, 3 collection errors**.
 - `tests/test_engine.py`: `ImportError: cannot import name 'TradingEngine' from api.services.engine` — no such class exists in the current engine.
 - `tests/test_risk_manager.py`: `ImportError: cannot import name 'RiskManager'` — `risk_manager.py` only exports a module-level `check()` function now.
 - `tests/test_copy_trading.py`: imports `api.modules.copy_trading`, which does not exist on this branch (it's the retired module from C1 above — dead test for dead code).

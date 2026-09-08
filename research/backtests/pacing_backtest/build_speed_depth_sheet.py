@@ -12,7 +12,7 @@ def loadtr(tag):
     t=pd.read_csv(f); t.insert(0,'auction',tag); return t
 tr27=loadtr('june-27-june-29'); tr25=loadtr('june-25-june-27')
 creds=service_account.Credentials.from_service_account_file(os.path.expanduser('~/.claude/google-service-account.json'),
-    scopes=['https://www.googleapis.com/auth/spreadsheets','https://www.googleapis.com/auth/drive'],subject='darwin@xagency.com')
+    scopes=['https://www.googleapis.com/auth/spreadsheets','https://www.googleapis.com/auth/drive'],subject=os.environ.get("GOOGLE_ACCOUNT_EMAIL"))
 sh=build('sheets','v4',credentials=creds); dr=build('drive','v3',credentials=creds)
 verdict=[
 ["SPEED STRATEGY - DEPTH-CAPPED, WHOLE AUCTION, CONFIRMED ON 2 AUCTIONS"],

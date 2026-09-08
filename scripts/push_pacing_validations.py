@@ -1,4 +1,6 @@
 """Write validation columns with relaxed tolerance: ±1 OR ±<5% = correct."""
+
+import os
 import json, os
 from pathlib import Path
 from google.oauth2 import service_account
@@ -12,7 +14,7 @@ results = json.loads((CACHE/"validation_results.json").read_text(encoding="utf-8
 creds = service_account.Credentials.from_service_account_file(
     os.path.expanduser("~/.claude/google-service-account.json"),
     scopes=["https://www.googleapis.com/auth/spreadsheets"],
-    subject="darwin@xagency.com",
+    subject=os.environ.get("GOOGLE_ACCOUNT_EMAIL"),
 )
 svc = build("sheets", "v4", credentials=creds)
 

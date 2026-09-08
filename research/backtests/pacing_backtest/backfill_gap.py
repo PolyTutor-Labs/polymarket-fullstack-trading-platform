@@ -62,7 +62,7 @@ from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload
 creds=service_account.Credentials.from_service_account_file(os.path.expanduser('~/.claude/google-service-account.json'),
-    scopes=['https://www.googleapis.com/auth/drive'], subject='darwin@xagency.com')
+    scopes=['https://www.googleapis.com/auth/drive'], subject=os.environ.get("GOOGLE_ACCOUNT_EMAIL"))
 drive=build('drive','v3',credentials=creds)
 FID='1hfmm4AGXD7yE_elMy5g1EN-CRIjOcsFs'
 drive.files().update(fileId=FID, media_body=MediaFileUpload(str(csv),mimetype='text/csv',resumable=True),

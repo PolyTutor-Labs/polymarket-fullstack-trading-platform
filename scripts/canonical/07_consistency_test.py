@@ -16,7 +16,10 @@ Checks:
   7. PRICES  All hours within auction window (no orphan hours)
   8. CROSS  Posts inside auction window roughly match historical pacing
 """
+
 from __future__ import annotations
+
+import os
 
 import json
 import sys
@@ -277,7 +280,7 @@ def push_to_sheet(results: list[dict], coverage_rows: list[list[str]]):
     creds = service_account.Credentials.from_service_account_file(
         str(SA_KEY),
         scopes=["https://www.googleapis.com/auth/spreadsheets"],
-        subject="darwin@xagency.com",
+        subject=os.environ.get("GOOGLE_ACCOUNT_EMAIL"),
     )
     sheets = build("sheets", "v4", credentials=creds, cache_discovery=False)
     meta = sheets.spreadsheets().get(spreadsheetId=SPREADSHEET_ID).execute()

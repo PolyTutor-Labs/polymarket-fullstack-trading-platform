@@ -6,6 +6,8 @@ settled Actual (reference). Walk-forward: every model's prior/params use ONLY 2-
 Model math reused verbatim from calibration_test.py (Linear/Kalman/M4MMPP/CurBayes/M0), pacing_leaderboard.py
 (Ens+CAP1.5), add_more_pace_models.py (sleep-adjusted effective hours), Brackets.js (_computePacing live Bayesian).
 Set WRITE=True to push to the Google Sheet."""
+
+import os
 import sys, os, glob, math
 from datetime import datetime
 from zoneinfo import ZoneInfo
@@ -220,7 +222,7 @@ for ci in rank: print(f"  {hdr_names[ci]:>16}: {MAE[ci]}")
 # ---- write to a NEW tab ----
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
-creds = service_account.Credentials.from_service_account_file(os.path.expanduser('~/.claude/google-service-account.json'), scopes=['https://www.googleapis.com/auth/spreadsheets'], subject='darwin@xagency.com')
+creds = service_account.Credentials.from_service_account_file(os.path.expanduser('~/.claude/google-service-account.json'), scopes=['https://www.googleapis.com/auth/spreadsheets'], subject=os.environ.get("GOOGLE_ACCOUNT_EMAIL"))
 svc = build('sheets', 'v4', credentials=creds).spreadsheets()
 titles = [s['properties']['title'] for s in svc.get(spreadsheetId=SHEET).execute()['sheets']]
 if NEWTAB in titles:

@@ -1,5 +1,7 @@
 """Reads live_pace.json + live market prices, maps each model to its bracket, and writes a
 clean Google Sheet: per-model forecast + derivation, and the market's price ladder beside it."""
+
+import os
 import json, math, os, urllib.request
 from pathlib import Path
 from google.oauth2 import service_account
@@ -70,7 +72,7 @@ if fav:
 creds=service_account.Credentials.from_service_account_file(
     os.path.expanduser('~/.claude/google-service-account.json'),
     scopes=['https://www.googleapis.com/auth/spreadsheets','https://www.googleapis.com/auth/drive'],
-    subject='darwin@xagency.com')
+    subject=os.environ.get("GOOGLE_ACCOUNT_EMAIL"))
 sh=build('sheets','v4',credentials=creds); dr=build('drive','v3',credentials=creds)
 ss=sh.spreadsheets().create(body={'properties':{'title':f'Elon {SLUG.replace("elon-musk-of-tweets-","")} Live Pacing'},
     'sheets':[{'properties':{'title':'Live Pacing'}}]}).execute()

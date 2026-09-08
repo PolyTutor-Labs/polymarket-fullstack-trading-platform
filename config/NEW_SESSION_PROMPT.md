@@ -18,7 +18,7 @@ No manual prompt pasting needed. Just open Claude Code in the project directory.
 ## What Already Exists in This Folder
 
 This project has a working Phase 1 trading bot. Read these files to get full context:
-- `bot/HANDOFF.md` — detailed build log, file list, test results, architecture decisions
+- `docs/` — current educational path; `config/lessons.md` for durable rules
 - `PROJECT_STATUS.md` — data state, component status, pipeline details
 - `WHATS_BEEN_BUILT.md` — plain-English overview of the whole system
 - `bot/IMPLEMENTATION_PLAN.md` — 6-phase roadmap
@@ -104,7 +104,7 @@ This project has a working Phase 1 trading bot. Read these files to get full con
 2. **Create project .md files** (200-line max per file, split if needed):
    - `CLAUDE.md` — project conventions, architecture, build/run commands
    - `PROJECT.md` — overview, goals, tech stack, status
-   - `HANDOFF.md` — update the existing root-level one
+   - `config/lessons.md` — durable rules only (no private infrastructure)
    - `DESIGN.md` — UI/UX decisions, component structure, light/dark mode
    - `ARCHITECTURE.md` — system architecture, data flow, deployment
    - `STRATEGY.md` — trading strategies catalog, parameters, when to use

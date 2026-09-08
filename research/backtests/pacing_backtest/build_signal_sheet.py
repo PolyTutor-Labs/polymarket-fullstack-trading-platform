@@ -11,7 +11,7 @@ td=pd.read_csv(f"{D}/signals.csv"); tl=pd.read_csv(f"{D}/timeline.csv")
 nb=int((td.action=='BUY').sum()); ns=int((td.action=='SELL').sum())
 
 creds=service_account.Credentials.from_service_account_file(os.path.expanduser('~/.claude/google-service-account.json'),
-    scopes=['https://www.googleapis.com/auth/spreadsheets','https://www.googleapis.com/auth/drive'],subject='darwin@xagency.com')
+    scopes=['https://www.googleapis.com/auth/spreadsheets','https://www.googleapis.com/auth/drive'],subject=os.environ.get("GOOGLE_ACCOUNT_EMAIL"))
 sh=build('sheets','v4',credentials=creds); dr=build('drive','v3',credentials=creds)
 
 logic=[

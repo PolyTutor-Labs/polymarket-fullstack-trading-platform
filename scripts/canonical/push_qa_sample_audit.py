@@ -11,7 +11,10 @@ shows side-by-side:
 
 So Sir can spot-check exactly what the QA gate is comparing.
 """
+
 from __future__ import annotations
+
+import os
 
 import json
 import random
@@ -30,7 +33,7 @@ GAMMA_CACHE = CANON / "_gamma_cache"
 
 SPREADSHEET_ID = "1bXBnXz4a1Nn44ZLORNo2cNqZx6pnqER3rcoTUZMC1Q8"
 SA_KEY = Path.home() / ".claude" / "google-service-account.json"
-SUBJECT = "darwin@xagency.com"
+SUBJECT = os.environ.get("GOOGLE_ACCOUNT_EMAIL")
 
 SAMPLE_AUCTIONS = 20
 SAMPLE_PRICES = 20

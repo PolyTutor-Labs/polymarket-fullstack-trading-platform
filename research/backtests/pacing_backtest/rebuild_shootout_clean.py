@@ -5,6 +5,8 @@ the block to the user's REAL last column (the 'Hold?' column, found by its row-2
 region to the RIGHT of it, restores the Hold? header, and writes the FULL 10-col block in one shot:
 Kalman, AccrualCurve, Ensemble, Ens+Cap1.5(LOCKED), Hawkes, Particle Filter, Finish Line, Kalman+Sleep,
 Actual final, Market(Poly Pace) -- each model's projected FINAL count per row -- plus a legend."""
+
+import os
 import subprocess, sys, os, math, glob
 from datetime import datetime
 from zoneinfo import ZoneInfo
@@ -14,7 +16,7 @@ from googleapiclient.discovery import build
 from pathlib import Path
 sys.stdout.reconfigure(encoding='utf-8'); rng=np.random.default_rng(7)
 ROOT=str(Path(__file__).resolve().parents[3]); CANON=ROOT+"/_DataMetricPulls/canonical"; HERE=os.path.dirname(os.path.abspath(__file__)); OUT=HERE+"/audit_out3"; ET=ZoneInfo('America/New_York')
-creds=service_account.Credentials.from_service_account_file(os.path.expanduser('~/.claude/google-service-account.json'),scopes=['https://www.googleapis.com/auth/spreadsheets'],subject='darwin@xagency.com')
+creds=service_account.Credentials.from_service_account_file(os.path.expanduser('~/.claude/google-service-account.json'),scopes=['https://www.googleapis.com/auth/spreadsheets'],subject=os.environ.get("GOOGLE_ACCOUNT_EMAIL"))
 svc=build('sheets','v4',credentials=creds); sh=svc.spreadsheets(); SEE='1aApOzCaK7nbg2PRrNW_N1apVv1GWxjd6BHJZD9L7Feg'; TAB='New_Backtest_Clean_7.13.2026'
 def A1(i):
     s=''; i+=1

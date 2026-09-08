@@ -6,7 +6,10 @@ to the sheet in 'Inventory' tab. Adds basic formatting + sort order.
 
 Spreadsheet ID is hardcoded once (created 2026-05-28).
 """
+
 from __future__ import annotations
+
+import os
 
 import csv
 import json
@@ -22,7 +25,7 @@ CSV_PATH = ROOT / "_DataMetricPulls" / "canonical" / "_audit" / "source_inventor
 
 SPREADSHEET_ID = "1bXBnXz4a1Nn44ZLORNo2cNqZx6pnqER3rcoTUZMC1Q8"
 SA_KEY = Path.home() / ".claude" / "google-service-account.json"
-SUBJECT = "darwin@xagency.com"
+SUBJECT = os.environ.get("GOOGLE_ACCOUNT_EMAIL")
 
 
 def main() -> int:

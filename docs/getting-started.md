@@ -55,6 +55,7 @@ Required to do useful work:
 | `NEXT_PUBLIC_API_URL` | Default `http://localhost:8010` |
 | `PAPER_MODE` | Default `true` |
 | `ALLOW_LIVE_TRADING` | Default `false` — keep it false while learning |
+| `GOOGLE_ACCOUNT_EMAIL` | Optional; research/canonical Google Sheet helpers only |
 
 Do not put real secrets in git. See [SECURITY.md](../SECURITY.md).
 
@@ -113,7 +114,7 @@ python scripts/security/check_secrets.py
 - **Dashboard 503**: `DASHBOARD_PASSWORD` unset.
 - **API up, empty terminal**: Supabase keys missing or migrations not applied.
 - **Port in use**: 8010 / 3010 taken.
-- **docker-compose ports**: file uses 8000/3000; local scripts use 8010/3010.
+- **Ports**: user-facing backend **8010**, dashboard **3010** (local scripts, docs, and `docker-compose.yml` host mappings). The API process still listens on 8000 *inside* the container (`8010:8000`).
 
 More: [troubleshooting.md](troubleshooting.md).
 

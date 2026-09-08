@@ -1,4 +1,6 @@
 """Re-push Elon_Auctions_Inventory with unknown-duration auctions filtered out."""
+
+import os
 from pathlib import Path
 import pandas as pd
 from google.oauth2 import service_account
@@ -52,7 +54,7 @@ def main():
     BANNER = f"ℹ All {len(auc)} Elon tweet-count auctions (unknown durations excluded) — duration_type, winners, OHLC of winning bracket."
 
     creds = service_account.Credentials.from_service_account_file(
-        str(SA), scopes=["https://www.googleapis.com/auth/spreadsheets"], subject="darwin@xagency.com",
+        str(SA), scopes=["https://www.googleapis.com/auth/spreadsheets"], subject=os.environ.get("GOOGLE_ACCOUNT_EMAIL"),
     )
     sheets = build("sheets", "v4", credentials=creds, cache_discovery=False)
     meta = sheets.spreadsheets().get(spreadsheetId=SS).execute()

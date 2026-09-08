@@ -6,7 +6,7 @@ sets column widths, and styles the relocated legend at AL:AM. Reads the live tab
 import os
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
-creds=service_account.Credentials.from_service_account_file(os.path.expanduser('~/.claude/google-service-account.json'),scopes=['https://www.googleapis.com/auth/spreadsheets'],subject='darwin@xagency.com')
+creds=service_account.Credentials.from_service_account_file(os.path.expanduser('~/.claude/google-service-account.json'),scopes=['https://www.googleapis.com/auth/spreadsheets'],subject=os.environ.get("GOOGLE_ACCOUNT_EMAIL"))
 sh=build('sheets','v4',credentials=creds).spreadsheets(); SEE='1aApOzCaK7nbg2PRrNW_N1apVv1GWxjd6BHJZD9L7Feg'; TAB='New_Backtest_Clean_7.13.2026'
 meta=sh.get(spreadsheetId=SEE).execute()
 sheet=[x for x in meta['sheets'] if x['properties']['title']==TAB][0]; g=sheet['properties']['sheetId']

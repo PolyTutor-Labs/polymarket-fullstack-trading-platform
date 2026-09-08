@@ -140,7 +140,7 @@ export default function Terminal() {
     return () => clearInterval(id);
   }, [refresh]);
 
-  const modules = data?.modules ?? [];
+  const modules = useMemo(() => data?.modules ?? [], [data?.modules]);
   const tabs: TabDef[] = useMemo(
     () => [
       { id: "overview", label: "Overview" },

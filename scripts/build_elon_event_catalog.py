@@ -5,7 +5,7 @@ xAI major | Court | Political. Skip Falcon 9 Starlink batches (noise).
 
 Data window: Sept 2025 -> Dec 2026, matches Elon X-API clean data window.
 
-Output: new Google Sheet in darwin@xagency.com's Drive, one tab "Events".
+Output: new Google Sheet in GOOGLE_ACCOUNT_EMAIL's Drive, one tab "Events".
 Columns: date, start_et, end_et, event, category, expected_pattern,
 confidence, historical_notes, source_url, qa_status, alert_enabled.
 """
@@ -70,7 +70,7 @@ def build_sheet() -> str:
             "https://www.googleapis.com/auth/spreadsheets",
             "https://www.googleapis.com/auth/drive",
         ],
-        subject="darwin@xagency.com",
+        subject=os.environ.get("GOOGLE_ACCOUNT_EMAIL"),
     )
     sheets = build("sheets", "v4", credentials=creds)
     drive = build("drive", "v3", credentials=creds)

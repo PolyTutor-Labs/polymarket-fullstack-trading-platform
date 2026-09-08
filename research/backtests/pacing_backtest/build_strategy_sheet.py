@@ -20,7 +20,7 @@ cmp=pd.DataFrame([stats(g) for g in (12,24,36)])
 tr,au=G[24]; buys=tr[tr.action=='BUY']; t=au[au.buys>0]
 cap=au.deployed.sum(); pnl=au.pnl.sum(); m=t.roi_pct.mean(); se=t.roi_pct.std()/math.sqrt(len(t))
 creds=service_account.Credentials.from_service_account_file(os.path.expanduser('~/.claude/google-service-account.json'),
-    scopes=['https://www.googleapis.com/auth/spreadsheets','https://www.googleapis.com/auth/drive'],subject='darwin@xagency.com')
+    scopes=['https://www.googleapis.com/auth/spreadsheets','https://www.googleapis.com/auth/drive'],subject=os.environ.get("GOOGLE_ACCOUNT_EMAIL"))
 sh=build('sheets','v4',credentials=creds); dr=build('drive','v3',credentials=creds)
 info=[
 ["YOUR DIVERGENCE STRATEGY - 22 two-day auctions, real order book, official winners"],

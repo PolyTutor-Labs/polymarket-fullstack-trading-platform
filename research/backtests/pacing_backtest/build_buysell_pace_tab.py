@@ -12,7 +12,7 @@ from pathlib import Path
 ROOT=str(Path(__file__).resolve().parents[3]); CANON=ROOT+"/_DataMetricPulls/canonical"; PMX=ROOT+"/_DataMetricPulls/pmxt_pulled"
 OUT=ROOT+"/research/backtests/pacing_backtest/audit_out3"; ET=ZoneInfo('America/New_York'); con=duckdb.connect()
 MON=['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
-creds=service_account.Credentials.from_service_account_file(os.path.expanduser('~/.claude/google-service-account.json'),scopes=['https://www.googleapis.com/auth/spreadsheets'],subject='darwin@xagency.com')
+creds=service_account.Credentials.from_service_account_file(os.path.expanduser('~/.claude/google-service-account.json'),scopes=['https://www.googleapis.com/auth/spreadsheets'],subject=os.environ.get("GOOGLE_ACCOUNT_EMAIL"))
 sh=build('sheets','v4',credentials=creds); SEE='1aApOzCaK7nbg2PRrNW_N1apVv1GWxjd6BHJZD9L7Feg'
 SLUG='elon-musk-of-tweets-april-23-april-25'; s=int(pd.Timestamp(datetime(2026,4,23,12,tzinfo=ET)).timestamp()); e=int(pd.Timestamp(datetime(2026,4,25,12,tzinfo=ET)).timestamp())
 def pbk(l):

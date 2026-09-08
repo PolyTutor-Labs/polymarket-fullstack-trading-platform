@@ -2,6 +2,8 @@
 1. the tweet count is the real Polymarket-counting count (matches xTracker),
 2. seasonality is computed from real per-hour/per-day data (not a verbal estimate),
 3. 'historical average' = the real list of prior auction counts."""
+
+import os
 import sys, os
 from datetime import datetime
 from zoneinfo import ZoneInfo
@@ -103,7 +105,7 @@ p3.append(['','','HISTORICAL AVERAGE =', round(float(np.mean([p['actual'] for p 
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 creds=service_account.Credentials.from_service_account_file(os.path.expanduser('~/.claude/google-service-account.json'),
-    scopes=['https://www.googleapis.com/auth/spreadsheets'], subject='darwin@xagency.com')
+    scopes=['https://www.googleapis.com/auth/spreadsheets'], subject=os.environ.get("GOOGLE_ACCOUNT_EMAIL"))
 svc=build('sheets','v4',credentials=creds); SID='1AV_vIsxLIzTivNE_EshZbh-y7QKxLa7MIy1hNJMbAf8'
 def wtab(tab,vals):
     meta=svc.spreadsheets().get(spreadsheetId=SID,fields='sheets(properties(title))').execute()

@@ -18,7 +18,10 @@ Fixes applied in this version:
 
 All timestamps converted UTC -> America/New_York via zoneinfo (DST-correct).
 """
+
 from __future__ import annotations
+
+import os
 
 import json
 import re
@@ -34,7 +37,7 @@ from googleapiclient.discovery import build
 ROOT = Path(__file__).resolve().parents[2]
 SPREADSHEET_ID = "1bXBnXz4a1Nn44ZLORNo2cNqZx6pnqER3rcoTUZMC1Q8"
 SA_KEY = Path.home() / ".claude" / "google-service-account.json"
-SUBJECT = "darwin@xagency.com"
+SUBJECT = os.environ.get("GOOGLE_ACCOUNT_EMAIL")
 
 RAW_TRADES_DIR = ROOT / "_DataMetricPulls" / "canonical" / "_raw_imports" / "api_trades_v2"
 CANON_AUCTIONS = ROOT / "_DataMetricPulls" / "canonical" / "auctions"

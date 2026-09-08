@@ -13,7 +13,7 @@ early=mv[tw.hrs_to_close>24].abs(); late=mv[tw.hrs_to_close<=6].abs()
 e_mean=round(early.mean(),1); e_max=round(early.max(),1); l_mean=round(late.mean(),1)
 nb=int((tr.action=='BUY').sum()); ns=int((tr.action=='SELL').sum())
 creds=service_account.Credentials.from_service_account_file(os.path.expanduser('~/.claude/google-service-account.json'),
-    scopes=['https://www.googleapis.com/auth/spreadsheets','https://www.googleapis.com/auth/drive'],subject='darwin@xagency.com')
+    scopes=['https://www.googleapis.com/auth/spreadsheets','https://www.googleapis.com/auth/drive'],subject=os.environ.get("GOOGLE_ACCOUNT_EMAIL"))
 sh=build('sheets','v4',credentials=creds); dr=build('drive','v3',credentials=creds)
 summary=[
 ["ONE AUCTION, ONE STRATEGY - the seesaw, trade by trade (april-16 -> april-18, winner 65-89, actual count 77)"],

@@ -4,6 +4,8 @@ what each PROJECTS (final count) at every row's moment: Hawkes, Particle Filter,
 Plus Actual final + Market (Poly Pace) side-by-side so the overshoot vs the market/reality is visible.
 Surgical: writes ONLY AE..AJ + relocates the legend. Re-runs the 16 auctions to get row-aligned timestamps
 (verified against the live tab: action/bracket/our_center), then computes each model walk-forward per row."""
+
+import os
 import subprocess, sys, os, math
 from datetime import datetime
 from zoneinfo import ZoneInfo
@@ -14,7 +16,7 @@ from pathlib import Path
 sys.stdout.reconfigure(encoding='utf-8'); rng=np.random.default_rng(7)
 ROOT=str(Path(__file__).resolve().parents[3]); CANON=ROOT+"/_DataMetricPulls/canonical"; HERE=os.path.dirname(os.path.abspath(__file__)); OUT=HERE+"/audit_out3"; ET=ZoneInfo('America/New_York')
 import glob
-creds=service_account.Credentials.from_service_account_file(os.path.expanduser('~/.claude/google-service-account.json'),scopes=['https://www.googleapis.com/auth/spreadsheets'],subject='darwin@xagency.com')
+creds=service_account.Credentials.from_service_account_file(os.path.expanduser('~/.claude/google-service-account.json'),scopes=['https://www.googleapis.com/auth/spreadsheets'],subject=os.environ.get("GOOGLE_ACCOUNT_EMAIL"))
 sh=build('sheets','v4',credentials=creds).spreadsheets(); SEE='1aApOzCaK7nbg2PRrNW_N1apVv1GWxjd6BHJZD9L7Feg'; TAB='New_Backtest_Clean_7.13.2026'
 def _gid(t):
     for x in sh.get(spreadsheetId=SEE).execute()['sheets']:

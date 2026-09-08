@@ -1,6 +1,6 @@
 # Weekly Audit — 2026-08-31
 
-Branch audited: `feat/newbot-step1-skeleton` (live production code). Supabase project `xdonwowgqvmtrduikaon`.
+Branch audited: `feat/newbot-step1-skeleton` (live production code). Supabase project `<supabase-project-ref>`.
 Auditor could not run direct SQL against Supabase from this sandbox (Postgres port not reachable; management/logs API only) — this materially limited the LIVE section. See L-1.
 
 ## TL;DR
@@ -14,7 +14,7 @@ Auditor could not run direct SQL against Supabase from this sandbox (Postgres po
 
 ---
 
-## LIVE (Supabase, `xdonwowgqvmtrduikaon`)
+## LIVE (Supabase, `<supabase-project-ref>`)
 
 **L-1. CRITICAL — Database outage, ongoing, 16–24+ hours.** `query_logs` on `postgrest_logs` shows 10,790 `503` responses between `2026-08-30T14:06:46Z` and the latest visible log entry `2026-08-31T06:33:56Z`, with **zero successful (`200`) requests anywhere in the full 24h log window** — the outage may predate the window. `postgres_logs` shows recurring `canceling statement due to statement timeout` every 1–3 minutes, including on trivial queries (`SELECT setting FROM pg_settings WHERE name='max_connections'`, 10.4s before cancel) and `PGRST002 Could not query the database for the schema cache. Retrying.` Confirmed bot-originated failing calls: `GET /modules?select=id,name,strategy,market_slug&status=neq.inactive` → 503, `POST /telegram_alert_state?on_conflict=key` → 503, `GET /telegram_alert_state?key=eq.manual_watches_v1` → 503 (all `python-httpx/0.28.1`, the bot's own client). This matches the failure shape of the 2026-05-22 Disk IO incident CLAUDE.md already documents (retention policy was the fix for that one — worth checking whether retention cleanup/archive jobs are still running, or whether an unbounded table is behind this recurrence). **Action needed from a human with dashboard access**: check Supabase project compute/disk health, look for a long-running/blocking query or lock, consider a compute restart.
 **L-2. CRITICAL — this audit could not complete the standard live checks** (signal approval rates + rejection_reason breakdown, per-module realized P&L 7d/all-time, module health, engine `Cycle:` staleness, foreign-writer `enabled_wallets` scan) because `execute_sql`/`list_tables` time out identically to the bot's own traffic, and this sandbox has no Postgres-port or Railway-domain egress to try an alternate path (dashboard URL fetch returned `EGRESS_BLOCKED`). A search for `%enabled_wallets%` across the visible `postgrest_logs` window returned zero rows — no evidence of the foreign-writer bot in the last 24h, but this is inconclusive given the outage dominates that window.

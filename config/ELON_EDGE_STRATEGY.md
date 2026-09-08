@@ -101,7 +101,7 @@ beat 300ms. Speed only pays for the deterministic crypto post-resolution sweeper
   ranked watchlist of inefficient crowds). Prototype: `scratchpad/reconstruct_other_markets.py`.
 - Lead found: soccer PLAYER-PROP markets show mean-reversion (+0.22 to +0.28 vs efficient Elon
   +0.037). VALIDATE on real L2 depth before trusting (may be thin-book bounce). Baseball/weather
-  aren't listed as brackets now (seasonal); the scanner catches them when live. See HANDOFF.md.
+  aren't listed as brackets now (seasonal); the scanner catches them when live.
 
 ## 8) OPEN VALIDATION (small samples ~35 auctions / ~9 days L2)
 - Re-run divergence + all L2 backtests once the pmxt backfill (Apr 13 -> Jun 22) completes (~8x data).

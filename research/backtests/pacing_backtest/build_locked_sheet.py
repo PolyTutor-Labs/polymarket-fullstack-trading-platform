@@ -17,7 +17,7 @@ def seg(m):
 e1=seg(tl.hrs_in<=12); e2=seg((tl.hrs_in>12)&(tl.hrs_in<=36)); e3=seg(tl.hrs_in>36)
 
 creds=service_account.Credentials.from_service_account_file(os.path.expanduser('~/.claude/google-service-account.json'),
-    scopes=['https://www.googleapis.com/auth/spreadsheets','https://www.googleapis.com/auth/drive'],subject='darwin@xagency.com')
+    scopes=['https://www.googleapis.com/auth/spreadsheets','https://www.googleapis.com/auth/drive'],subject=os.environ.get("GOOGLE_ACCOUNT_EMAIL"))
 sh=build('sheets','v4',credentials=creds); dr=build('drive','v3',credentials=creds)
 
 info=[

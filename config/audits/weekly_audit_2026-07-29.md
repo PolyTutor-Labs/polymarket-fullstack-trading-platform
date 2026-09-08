@@ -1,6 +1,6 @@
 # Weekly Audit — 2026-07-29
 
-Scope: live branch `feat/newbot-step1-skeleton` (HEAD `c762636`) + Supabase project `xdonwowgqvmtrduikaon`, last 7 days unless noted. All timestamps UTC. DB `now()` at audit time: `2026-07-29 19:00:56Z`.
+Scope: live branch `feat/newbot-step1-skeleton` (HEAD `c762636`) + Supabase project `<supabase-project-ref>`, last 7 days unless noted. All timestamps UTC. DB `now()` at audit time: `2026-07-29 19:00:56Z`.
 
 No live trading logic, risk limits, or module behavior was changed. This PR is the report only.
 
@@ -81,7 +81,7 @@ Copytrader has never had a winning week; S2 Basket-Hold's losses accelerated thi
 
 **16. `risk_manager.py:287` `aggregate_price_ceiling_ok()` has no caller anywhere in the repo** — a documented D4 aggregate-price-ceiling guard that never actually runs. Either wire it in where cross-bracket exposure is decided, or remove it so it stops reading as coverage that doesn't exist.
 
-**17. Several `research/backtests/pacing_backtest/*_test.py` and one `research/analysis/elon_schedule_analysis/test_tz_hypothesis.py` file hardcode an absolute Windows path** (`C:\Users\darwi\OneDrive\Desktop\Claude Code\Personal\PolyMarket_Bot\...`) to load their input parquet, so they can only ever run on the original author's machine — they fail collection in this (and presumably any CI) environment. These aren't part of the live trading path, but they block a clean `pytest` run from this branch's root and should either read from `_DataMetricPulls/canonical/` per CLAUDE.md's canonical-data rule, or be excluded from default pytest collection (e.g. via `testpaths` in `pytest.ini`/`pyproject.toml` scoped to `tests/`).
+**17. Several `research/backtests/pacing_backtest/*_test.py` and one `research/analysis/elon_schedule_analysis/test_tz_hypothesis.py` file hardcode an absolute Windows path** (`<local-windows-path> Code\Personal\PolyMarket_Bot\...`) to load their input parquet, so they can only ever run on the original author's machine — they fail collection in this (and presumably any CI) environment. These aren't part of the live trading path, but they block a clean `pytest` run from this branch's root and should either read from `_DataMetricPulls/canonical/` per CLAUDE.md's canonical-data rule, or be excluded from default pytest collection (e.g. via `testpaths` in `pytest.ini`/`pyproject.toml` scoped to `tests/`).
 
 **18. No backtest scripts changed in the last 7 days** (only backtest-*tooling* — the RUN_META emitter and the backtest-auditor agent itself — landed this week; `git log --since=7d` shows nothing under `backtest/`, `research/backtests/pacing_backtest/`, `research/experiments/foretest/`). No new P&L/ROI claim exists to run a full `backtest-auditor` pass against this cycle; skipped for that reason, not because it was checked and passed.
 

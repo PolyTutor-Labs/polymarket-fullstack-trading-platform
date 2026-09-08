@@ -179,7 +179,7 @@ print(f"hourly/dow rates built from {len(daily_tot)} walk-forward days before {T
 creds = service_account.Credentials.from_service_account_file(
     os.path.expanduser("~/.claude/google-service-account.json"),
     scopes=["https://www.googleapis.com/auth/spreadsheets"],
-    subject="darwin@xagency.com",
+    subject=os.environ.get("GOOGLE_ACCOUNT_EMAIL"),
 )
 sh = build("sheets", "v4", credentials=creds).spreadsheets()
 

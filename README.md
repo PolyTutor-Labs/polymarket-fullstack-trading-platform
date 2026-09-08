@@ -8,7 +8,9 @@
 
 > Learn how a complete Polymarket trading system connects market data, strategy modules, risk checks, execution, persistence, backtesting research, APIs, and a web dashboard.
 
-**PolyTutor Labs · Intermediate**
+**PolyTutor Labs · Intermediate · Educational / research**
+
+PolyTutor Educational Release: v0.1.0
 
 Learn → Build → Backtest → Simulate → Trade → Analyze → Improve
 
@@ -35,7 +37,7 @@ The live application path is FastAPI (`api/main.py`) plus a scheduler-driven `En
 |---|---|
 | `api/` | FastAPI app, engine, risk, execution, strategy modules |
 | `web/` | Next.js 14 maker terminal |
-| `backtest/` | Older projection helper (`engine.py` is currently orphaned) |
+| `backtest/` | Standalone/historical helper (not wired into FastAPI; see `backtest/README.md`) |
 | `research/` | Experiments and historical analyses |
 | `supabase/` | Schema migrations |
 | `tests/` | Current automated suite (102 tests) |
@@ -74,7 +76,7 @@ Full setup: [docs/getting-started.md](docs/getting-started.md).
 |---|---|---|
 | Paper | Supported | Module status ≠ `active` → simulated maker fills vs live book |
 | Live | Supported, dual-guarded | Needs `active` + `ENVIRONMENT=production` + `PAPER_MODE=false` + `ALLOW_LIVE_TRADING=true` |
-| Research backtests | Partial | Scripts under `research/`; `backtest/engine.py` is not a supported CLI |
+| Research backtests | Partial | Scripts under `research/`; `backtest/engine.py` is standalone/historical |
 
 Details: [docs/paper-vs-live.md](docs/paper-vs-live.md).
 
@@ -82,7 +84,7 @@ Details: [docs/paper-vs-live.md](docs/paper-vs-live.md).
 
 ```text
 api/         FastAPI entry, engine, risk, executors, strategy modules
-backtest/    Legacy projection engine (orphaned; see docs/backtesting.md)
+backtest/    Standalone/historical helper (see backtest/README.md)
 config/      Internal specs and historical notes (not the student path)
 docs/        PolyTutor educational guides
 infra/       Railway/VPS/Cloudflare helpers

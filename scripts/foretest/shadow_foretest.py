@@ -22,6 +22,8 @@ Commands:
   python scripts/foretest/shadow_foretest.py --snapshot SLUG --pull   # + live X-API count (~$1)
   python scripts/foretest/shadow_foretest.py --score          # running model-vs-market tally
 """
+
+import os
 import sys, io, os, re, json, argparse, time, urllib.request, urllib.parse, urllib.error
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 import pandas as pd, numpy as np
@@ -225,7 +227,7 @@ def sheet_count(ws, t):
     from google.oauth2 import service_account
     from googleapiclient.discovery import build
     creds = service_account.Credentials.from_service_account_file(
-        SA_KEY, scopes=["https://www.googleapis.com/auth/spreadsheets"], subject="darwin@xagency.com")
+        SA_KEY, scopes=["https://www.googleapis.com/auth/spreadsheets"], subject=os.environ.get("GOOGLE_ACCOUNT_EMAIL"))
     sh = build("sheets", "v4", credentials=creds)
     v = sh.spreadsheets().values().get(spreadsheetId=SHEET_ID, range="Sheet1!A1:D5000").execute().get("values", [])
     rows = [r + [""]*(4-len(r)) for r in v]

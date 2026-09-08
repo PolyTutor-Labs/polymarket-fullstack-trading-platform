@@ -9,7 +9,7 @@ from googleapiclient.discovery import build
 D=str(Path(__file__).resolve().parent / "audit_out3")
 tr=pd.read_csv(f"{D}/semi_trades.csv"); tw=pd.read_csv(f"{D}/semi_tweets.csv")
 creds=service_account.Credentials.from_service_account_file(os.path.expanduser('~/.claude/google-service-account.json'),
-    scopes=['https://www.googleapis.com/auth/spreadsheets','https://www.googleapis.com/auth/drive'],subject='darwin@xagency.com')
+    scopes=['https://www.googleapis.com/auth/spreadsheets','https://www.googleapis.com/auth/drive'],subject=os.environ.get("GOOGLE_ACCOUNT_EMAIL"))
 sh=build('sheets','v4',credentials=creds); dr=build('drive','v3',credentials=creds)
 
 readme=[

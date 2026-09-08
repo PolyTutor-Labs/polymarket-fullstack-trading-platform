@@ -2,7 +2,7 @@
 
 The tracker dashboard's account panel and equity curve read `daily_pnl`
 (`PolyPulse_Web/app/lib/supa.ts`). Nothing in the rebuilt bot ever wrote that
-table: its only writer was the rogue JaxBot deploy, which added the FULL
+table: its only writer was a stale unrelated deploy, which added the FULL
 cumulative realized P&L to portfolio_value every single day and walked it to
 -$21,652 on a $10k bankroll. Killing that deploy on 2026-09-07 left the table
 orphaned, so the bot owns it now.

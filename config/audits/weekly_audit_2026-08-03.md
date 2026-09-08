@@ -1,6 +1,6 @@
 # Weekly Audit — 2026-08-03
 
-Scope: LIVE production data (Supabase project `xdonwowgqvmtrduikaon`, last 7 days) + code on branch
+Scope: LIVE production data (Supabase project `<supabase-project-ref>`, last 7 days) + code on branch
 `feat/newbot-step1-skeleton` (the live production bot; `master` is the retired old bot and is referenced
 below only as the source of a live incident).
 
@@ -311,7 +311,7 @@ constructor signature changed). Specifically:
 - `tests/test_executor.py`: 7/7 tests fail — `LiveExecutor(profile=...)` no longer matches the current
   constructor; `api.services.executor.open_position` doesn't exist as an attribute to patch.
 - Also failing outside `tests/`: several `research/backtests/pacing_backtest/*_test.py` files hardcode a
-  Windows path (`C:\Users\darwi\...`) instead of a relative repo path, and one canonical consistency test
+  Windows path (`<local-windows-path>`) instead of a relative repo path, and one canonical consistency test
   imports `google.oauth2` which isn't installed.
 
 **This means the money-path code (executor, risk manager, engine) currently has zero executing automated

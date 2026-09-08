@@ -1,5 +1,7 @@
 """Trade-the-edge sim with FULL transparency: logs every trade + a step-by-step walkthrough
 of one auction, written to Google Sheet tabs so the logic is auditable by hand."""
+
+import os
 import sys, math, json
 from datetime import datetime, timezone
 from zoneinfo import ZoneInfo
@@ -148,7 +150,7 @@ print(f"\ntotal trades logged: {len(trade_log)}, walkthrough rows: {len(walk)}")
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 creds=service_account.Credentials.from_service_account_file(__import__('os').path.expanduser('~/.claude/google-service-account.json'),
-    scopes=['https://www.googleapis.com/auth/spreadsheets'], subject='darwin@xagency.com')
+    scopes=['https://www.googleapis.com/auth/spreadsheets'], subject=os.environ.get("GOOGLE_ACCOUNT_EMAIL"))
 svc=build('sheets','v4',credentials=creds); SID='1AV_vIsxLIzTivNE_EshZbh-y7QKxLa7MIy1hNJMbAf8'
 def write_tab(tab, header, rows):
     meta=svc.spreadsheets().get(spreadsheetId=SID,fields='sheets(properties(title))').execute()

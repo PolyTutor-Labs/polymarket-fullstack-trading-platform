@@ -56,7 +56,7 @@ GAMMA_HEADERS = {"User-Agent": "Mozilla/5.0 (canonical-loader)"}
 
 SPREADSHEET_ID = "1bXBnXz4a1Nn44ZLORNo2cNqZx6pnqER3rcoTUZMC1Q8"
 SA_KEY = Path.home() / ".claude" / "google-service-account.json"
-SUBJECT = "darwin@xagency.com"
+SUBJECT = os.environ.get("GOOGLE_ACCOUNT_EMAIL")
 QA_LOG_TAB = "QA_Log"
 
 

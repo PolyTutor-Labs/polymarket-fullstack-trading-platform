@@ -7,7 +7,7 @@ from googleapiclient.http import MediaFileUpload
 
 creds = service_account.Credentials.from_service_account_file(
     os.path.expanduser('~/.claude/google-service-account.json'),
-    scopes=['https://www.googleapis.com/auth/drive'], subject='darwin@xagency.com')
+    scopes=['https://www.googleapis.com/auth/drive'], subject=os.environ.get("GOOGLE_ACCOUNT_EMAIL"))
 drive = build('drive','v3',credentials=creds)
 
 OUT = (Path(__file__).resolve().parents[3] / 'research' / 'backtests' / 'pacing_backtest')

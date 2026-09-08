@@ -8,7 +8,7 @@ from googleapiclient.discovery import build
 D=str(Path(__file__).resolve().parent / "audit_out3")
 grid=pd.read_csv(f"{D}/grid_matrix.csv"); auc=pd.read_csv(f"{D}/sweep_seesaw_auctions.csv"); buys=pd.read_csv(f"{D}/sweep_seesaw_buys.csv")
 creds=service_account.Credentials.from_service_account_file(os.path.expanduser('~/.claude/google-service-account.json'),
-    scopes=['https://www.googleapis.com/auth/spreadsheets','https://www.googleapis.com/auth/drive'],subject='darwin@xagency.com')
+    scopes=['https://www.googleapis.com/auth/spreadsheets','https://www.googleapis.com/auth/drive'],subject=os.environ.get("GOOGLE_ACCOUNT_EMAIL"))
 sh=build('sheets','v4',credentials=creds); dr=build('drive','v3',credentials=creds)
 
 verdict=[

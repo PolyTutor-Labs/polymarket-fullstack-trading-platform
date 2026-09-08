@@ -2,6 +2,8 @@
 """Write the FULL clean sweep (all fully-covered auctions, BASE strategy, trade-by-trade) into the
 'New_Backtest_Clean_7.13.2026' tab, matching its headers. Running P&L is cumulative across the whole
 sweep so it ends at the pooled total. Re-runs each auction + loads its prices for the audit columns."""
+
+import os
 import subprocess, sys, os, glob, json, math, datetime as dt
 from datetime import datetime
 from zoneinfo import ZoneInfo
@@ -11,7 +13,7 @@ from googleapiclient.discovery import build
 from pathlib import Path
 ROOT=str(Path(__file__).resolve().parents[3]); CANON=ROOT+"/_DataMetricPulls/canonical"; PMX=ROOT+"/_DataMetricPulls/pmxt_pulled"
 OUT=ROOT+"/research/backtests/pacing_backtest/audit_out3"; HERE=os.path.dirname(os.path.abspath(__file__)); ET=ZoneInfo('America/New_York'); con=duckdb.connect(); MON=['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
-creds=service_account.Credentials.from_service_account_file(os.path.expanduser('~/.claude/google-service-account.json'),scopes=['https://www.googleapis.com/auth/spreadsheets'],subject='darwin@xagency.com')
+creds=service_account.Credentials.from_service_account_file(os.path.expanduser('~/.claude/google-service-account.json'),scopes=['https://www.googleapis.com/auth/spreadsheets'],subject=os.environ.get("GOOGLE_ACCOUNT_EMAIL"))
 sh=build('sheets','v4',credentials=creds); SEE='1aApOzCaK7nbg2PRrNW_N1apVv1GWxjd6BHJZD9L7Feg'; TAB='New_Backtest_Clean_7.13.2026'
 def pbk(l):
     l=str(l).strip()

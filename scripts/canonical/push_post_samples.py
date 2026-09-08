@@ -8,7 +8,10 @@ Creates/replaces tabs:
 Both source from canonical now (not raw parquet) so type tags / counts_for_auction
 match what backtests see.
 """
+
 from __future__ import annotations
+
+import os
 
 import json
 import re
@@ -23,7 +26,7 @@ from googleapiclient.discovery import build
 ROOT = Path(__file__).resolve().parents[2]
 SPREADSHEET_ID = "1bXBnXz4a1Nn44ZLORNo2cNqZx6pnqER3rcoTUZMC1Q8"
 SA_KEY = Path.home() / ".claude" / "google-service-account.json"
-SUBJECT = "darwin@xagency.com"
+SUBJECT = os.environ.get("GOOGLE_ACCOUNT_EMAIL")
 
 CANON = ROOT / "_DataMetricPulls" / "canonical"
 

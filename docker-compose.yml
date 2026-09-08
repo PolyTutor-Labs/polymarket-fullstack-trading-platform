@@ -1,5 +1,9 @@
 # Local development — use when ready
-# Run: docker-compose up
+# Run: docker compose up
+#
+# User-facing ports match docs and Windows scripts: backend 8010, dashboard 3010.
+# The API process still listens on 8000 inside the container.
+# Next.js `npm run dev` listens on 3010 (see web/package.json).
 
 version: "3.8"
 
@@ -7,7 +11,7 @@ services:
   api:
     build: ./api
     ports:
-      - "8000:8000"
+      - "8010:8000"
     env_file: .env
     volumes:
       - ./api:/app
@@ -16,8 +20,10 @@ services:
   web:
     build: ./web
     ports:
-      - "3000:3000"
+      - "3010:3010"
     env_file: .env
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8010
     volumes:
       - ./web:/app
       - /app/node_modules

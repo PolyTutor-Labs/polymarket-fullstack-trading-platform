@@ -44,7 +44,7 @@ Companion: [trading-system.md](trading-system.md), [paper-vs-live.md](paper-vs-l
 ```text
 docs/backtesting.md
     ↓
-backtest/engine.py          (orphaned — read, do not “run official”)
+backtest/README.md + engine.py   (standalone/historical — read, do not “run official”)
     ↓
 research/backtests/pacing_backtest/
     ↓

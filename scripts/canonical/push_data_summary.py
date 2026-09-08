@@ -7,7 +7,10 @@ Sections:
   PRICES - per handle, hourly rows + unique markets + date range
   COVERAGE GAPS - the known holes
 """
+
 from __future__ import annotations
+
+import os
 
 import sys
 from pathlib import Path
@@ -149,7 +152,7 @@ def main():
     creds = service_account.Credentials.from_service_account_file(
         str(SA_KEY),
         scopes=["https://www.googleapis.com/auth/spreadsheets"],
-        subject="darwin@xagency.com",
+        subject=os.environ.get("GOOGLE_ACCOUNT_EMAIL"),
     )
     sheets = build("sheets", "v4", credentials=creds, cache_discovery=False)
 

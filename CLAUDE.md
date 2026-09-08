@@ -254,5 +254,5 @@ metadata:
 
 ## Documentation Rules
 - Update config/FEATURES.md after every feature addition or change
-- Update config/HANDOFF.md at end of major work sessions
+- Record durable lessons in config/lessons.md (no private hosts, accounts, or credentials). Do not recreate a private operator handoff in-repo.
 - All .md files: 150 lines max

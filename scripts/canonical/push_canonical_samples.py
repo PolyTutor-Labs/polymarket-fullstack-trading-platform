@@ -8,7 +8,10 @@ Adds/replaces:
   Canonical_Prices      - 500 hourly OHLC rows from one big auction
   Canonical_Schema             - schema doc for backtest reference
 """
+
 from __future__ import annotations
+
+import os
 
 import sys
 from pathlib import Path
@@ -21,7 +24,7 @@ ROOT = Path(__file__).resolve().parents[2]
 CANON = ROOT / "_DataMetricPulls" / "canonical"
 SPREADSHEET_ID = "1bXBnXz4a1Nn44ZLORNo2cNqZx6pnqER3rcoTUZMC1Q8"
 SA_KEY = Path.home() / ".claude" / "google-service-account.json"
-SUBJECT = "darwin@xagency.com"
+SUBJECT = os.environ.get("GOOGLE_ACCOUNT_EMAIL")
 
 
 def load_posts(handle: str) -> pd.DataFrame:

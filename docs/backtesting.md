@@ -12,11 +12,11 @@ A historical replay under stated fill, fee, and information assumptions. Those a
 
 `api/services/engine.py` trades **current** markets on a timer. It is not an historical event loop.
 
-### `backtest/engine.py` — orphaned helper
+### `backtest/engine.py` — standalone / historical helper
 
-Projection/regime/Kelly-style functions over `_DataMetricPulls/historical/{handle}/`. A 2026-08 internal audit recorded that **nothing in `api/`, `tests/`, or `scripts/` imports it**, and the original `all_trackings.json` input was removed in the canonical-data consolidation. There is no supported CLI (`python -m backtest` is not a project command).
+Projection/regime/Kelly-style functions over `_DataMetricPulls/historical/{handle}/`. **Nothing in `api/`, `tests/`, or `scripts/` imports it**, and the original `all_trackings.json` input was removed in the canonical-data consolidation. There is no supported CLI (`python -m backtest` is not a project command).
 
-Treat this file as historical code to read, not a certified runner.
+See `backtest/README.md`. Treat this file as historical code to read, not a certified runner.
 
 ### Research scripts — the real study surface
 

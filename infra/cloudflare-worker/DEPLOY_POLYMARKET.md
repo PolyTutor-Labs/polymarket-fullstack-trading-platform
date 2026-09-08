@@ -103,7 +103,7 @@ After Railway redeploys:
 | Boot log says `proxy DISABLED` but env vars are set | Vars set on wrong Railway service or after deploy | Verify on Bot-API service, redeploy |
 | 401 from Worker | `POLYMARKET_PROXY_KEY` ≠ Worker `PROXY_KEY` | Re-check both, save, redeploy |
 | 404 from Worker | Bot's URL didn't include the prefix | Patch broken — file an issue with the request URL |
-| Still 403 from Polymarket | Worker proxied successfully but CF edge IP still blocked | Try Option 2 (Fly.io Toronto proxy) — see HANDOFF.md backlog |
+| Still 403 from Polymarket | Worker proxied successfully but CF edge IP still blocked | Try Option 2 (Fly.io Toronto proxy) — see `infra/vps/README.md` |
 | Slow first response | Worker cold start | Normal; subsequent calls are fast |
 | Free tier exhausted | Bot making >100k req/day OR Worker URL leaked | Rotate PROXY_KEY, check for runaway loops |
 

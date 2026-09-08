@@ -1,6 +1,6 @@
 # Weekly Automated Audit — 2026-08-24 (UTC)
 
-Scope: live production DB (Supabase project `xdonwowgqvmtrduikaon`, last 7 days unless noted) +
+Scope: live production DB (Supabase project `<supabase-project-ref>`, last 7 days unless noted) +
 code on `feat/newbot-step1-skeleton` (the live bot; `master` is the retired old bot).
 No trading logic, risk limits, or module behavior was modified. All items below are
 recommendations for human review.
